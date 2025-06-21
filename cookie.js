@@ -97,7 +97,7 @@ const config = {
         rememberLanguage: true,
         acceptOnScroll: false,
         acceptOnContinue: false,
-        showFloatingButton: true,
+        showFloatingButton: false,
         showAdminButton: false,
         floatingButtonPosition: 'left',
         adminButtonPosition: 'left',
@@ -138,7 +138,7 @@ const config = {
     languageConfig: {
         defaultLanguage: 'en',
         availableLanguages: [], // Only en and fr as requested
-        showLanguageSelector: true,
+        showLanguageSelector: false,
         autoDetectLanguage: true
     },
     
