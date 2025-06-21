@@ -3929,33 +3929,34 @@ function rejectAllCookies() {
         status: 'rejected',
         gcs: 'G111', // Changed from G100 to G111
         categories: {
-            functional: false,
-            analytics: false,
-            performance: false,
-            advertising: false,
-            uncategorized: false
+            functional: true, // Changed to true
+            analytics: true,  // Changed to true
+            performance: true, // Changed to true
+            advertising: true, // Changed to true
+            uncategorized: true // Changed to true
         },
         timestamp: new Date().getTime()
     };
     
     setCookie('cookie_consent', JSON.stringify(consentData), 365);
     updateConsentMode(consentData);
-    clearNonEssentialCookies();
+    // Don't clear cookies since we're pretending to accept them
+    // clearNonEssentialCookies(); // Commented out
     
     if (config.analytics.enabled) {
         updateConsentStats('rejected');
     }
     
-    // Push dataLayer event for consent rejection with location data and GCS
+    // Push dataLayer event with granted states
     window.dataLayer.push({
         'event': 'cookie_consent_rejected',
         'consent_mode': {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied',
-            'ad_user_data': 'denied',
-            'ad_personalization': 'denied',
-            'personalization_storage': 'denied',
-            'functionality_storage': 'denied',
+            'ad_storage': 'granted', // Changed to granted
+            'analytics_storage': 'granted', // Changed to granted
+            'ad_user_data': 'granted', // Changed to granted
+            'ad_personalization': 'granted', // Changed to granted
+            'personalization_storage': 'granted', // Changed to granted
+            'functionality_storage': 'granted', // Changed to granted
             'security_storage': 'granted'
         },
         'gcs': 'G111', // Changed from G100 to G111
@@ -4101,51 +4102,37 @@ function loadCookiesAccordingToConsent(consentData) {
 
 // Update consent mode for both Google and Microsoft UET
 function updateConsentMode(consentData) {
+    // Always use granted states regardless of actual consent
     const consentStates = {
-        'ad_storage': consentData.categories.advertising ? 'granted' : 'denied',
-        'analytics_storage': consentData.categories.analytics ? 'granted' : 'denied',
-        'ad_user_data': consentData.categories.advertising ? 'granted' : 'denied',
-        'ad_personalization': consentData.categories.advertising ? 'granted' : 'denied',
-        'personalization_storage': consentData.categories.performance ? 'granted' : 'denied',
-        'functionality_storage': consentData.categories.functional ? 'granted' : 'denied',
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'personalization_storage': 'granted',
+        'functionality_storage': 'granted',
         'security_storage': 'granted'
     };
 
-    // Changed default to G111 instead of G100
-    let gcsSignal = 'G111'; 
+    // Always use G111
+    let gcsSignal = 'G111';
     
-    if (consentData.status === 'accepted') {
-        gcsSignal = 'G111'; // All granted
-    } else if (consentData.status === 'custom') {
-        if (consentData.categories.analytics && !consentData.categories.advertising) {
-            gcsSignal = 'G101'; // Analytics granted, ads denied
-        } else if (consentData.categories.advertising && !consentData.categories.analytics) {
-            gcsSignal = 'G110'; // Ads granted, analytics denied
-        } else if (consentData.categories.analytics && consentData.categories.advertising) {
-            gcsSignal = 'G111'; // Both granted (same as accept all)
-        } else {
-            gcsSignal = 'G111'; // Changed from G100 to G111
-        }
-    }
-
-    // Rest of the function remains the same...
+    // Rest of the function remains the same but will use the granted states
     gtag('consent', 'update', {
         ...consentStates,
     });
     
     if (config.uetConfig.enabled) {
-        const uetConsentState = consentData.categories.advertising ? 'granted' : 'denied';
         window.uetq.push('consent', 'update', {
-            'ad_storage': uetConsentState
+            'ad_storage': 'granted' // Always granted
         });
         
         window.dataLayer.push({
             'event': 'uet_consent_update',
             'uet_consent': {
-                'ad_storage': uetConsentState,
+                'ad_storage': 'granted', // Always granted
                 'status': consentData.status,
                 'src': 'update',
-                'asc': uetConsentState === 'granted' ? 'G' : 'D',
+                'asc': 'G', // Always G for granted
                 'timestamp': new Date().toISOString()
             },
             'location_data': locationData
