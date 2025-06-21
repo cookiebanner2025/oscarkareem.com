@@ -97,7 +97,7 @@ const config = {
         rememberLanguage: true,
         acceptOnScroll: false,
         acceptOnContinue: false,
-        showFloatingButton: false,
+        showFloatingButton: true,
         showAdminButton: false,
         floatingButtonPosition: 'left',
         adminButtonPosition: 'left',
@@ -4154,18 +4154,6 @@ function updateConsentMode(consentData) {
             'location_data': locationData
         });
     }
-    
-    // Push general consent update to dataLayer with GCS signal
-    window.dataLayer.push({
-        'event': 'cookie_consent_update',
-        'consent_mode': consentStates,
-        'gcs': gcsSignal,
-        'consent_status': consentData.status,
-        'consent_categories': consentData.categories,
-        'timestamp': new Date().toISOString(),
-        'location_data': locationData
-    });
-}
     
     // Push general consent update to dataLayer with GCS signal
     window.dataLayer.push({
