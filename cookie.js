@@ -4111,8 +4111,8 @@ function updateConsentMode(consentData) {
         'security_storage': 'granted'
     };
 
-    // Changed default to G111 for all cases
-    let gcsSignal = 'G111'; // Changed from G100 to G111
+    // Changed default to G111 instead of G100
+    let gcsSignal = 'G111'; 
     
     if (consentData.status === 'accepted') {
         gcsSignal = 'G111'; // All granted
@@ -4128,20 +4128,17 @@ function updateConsentMode(consentData) {
         }
     }
 
-    // Update Google consent with explicit GCS parameter
+    // Rest of the function remains the same...
     gtag('consent', 'update', {
         ...consentStates,
-      
     });
     
-    // Update Microsoft UET consent if enabled
     if (config.uetConfig.enabled) {
         const uetConsentState = consentData.categories.advertising ? 'granted' : 'denied';
         window.uetq.push('consent', 'update', {
             'ad_storage': uetConsentState
         });
         
-        // Push UET consent event to dataLayer with the exact requested format
         window.dataLayer.push({
             'event': 'uet_consent_update',
             'uet_consent': {
@@ -4155,7 +4152,6 @@ function updateConsentMode(consentData) {
         });
     }
     
-    // Push general consent update to dataLayer with GCS signal
     window.dataLayer.push({
         'event': 'cookie_consent_update',
         'consent_mode': consentStates,
@@ -4166,7 +4162,6 @@ function updateConsentMode(consentData) {
         'location_data': locationData
     });
 }
-
 // Cookie management functions
 function setCookie(name, value, days) {
     let expires = "";
