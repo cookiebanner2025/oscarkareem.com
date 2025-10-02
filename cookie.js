@@ -64,7 +64,7 @@ const config = {
     allowedDomains: [],
     
     // Privacy policy URL (configurable)
-    privacyPolicyUrl: 'https://yourdomain.com/privacy-policy', // Add your full privacy policy URL here
+    privacyPolicyUrl: 'https://firmenkauf.de/#privacy-policy', // Add your full privacy policy URL here
 
 
    
@@ -136,7 +136,7 @@ const config = {
     
     // Language configuration
     languageConfig: {
-        defaultLanguage: 'en',
+        defaultLanguage: 'de',
         availableLanguages: [], // Only en and fr as requested
         showLanguageSelector: false,
         autoDetectLanguage: true
