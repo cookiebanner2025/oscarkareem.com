@@ -2094,30 +2094,45 @@ function checkGeoTargeting(geoData) {
 }
 
 // Detect user language based on country and browser settings
+// Detect user language based on country and browser settings
 function detectUserLanguage(geoData) {
-    // First check if language is stored in cookie
+    // First check if language is stored in cookie (user's previous choice)
     if (config.behavior.rememberLanguage) {
         const preferredLanguage = getCookie('preferred_language');
         if (preferredLanguage && translations[preferredLanguage]) {
+            console.log('Using preferred language from cookie:', preferredLanguage);
             return preferredLanguage;
         }
+    }
+    
+    // Then try to get language from browser settings
+    const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
+    console.log('Browser language detected:', browserLang);
+    
+    if (translations[browserLang]) {
+        // Save the detected language to cookie for future visits
+        if (config.behavior.rememberLanguage) {
+            setCookie('preferred_language', browserLang, 365);
+        }
+        return browserLang;
     }
     
     // Then try to get language from country if auto-detection is enabled
     if (config.languageConfig.autoDetectLanguage && geoData && geoData.country) {
         const countryLang = countryLanguageMap[geoData.country];
+        console.log('Country language detected:', countryLang, 'for country:', geoData.country);
+        
         if (countryLang && translations[countryLang]) {
+            // Save the detected language to cookie for future visits
+            if (config.behavior.rememberLanguage) {
+                setCookie('preferred_language', countryLang, 365);
+            }
             return countryLang;
         }
     }
     
-    // Fallback to browser language
-    const browserLang = (navigator.language || 'en').split('-')[0];
-    if (translations[browserLang]) {
-        return browserLang;
-    }
-    
     // Final fallback to configured default language
+    console.log('Using default language:', config.languageConfig.defaultLanguage);
     return config.languageConfig.defaultLanguage || 'en';
 }
 
