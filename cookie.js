@@ -846,7 +846,7 @@ const translations = {
     },
      de: {
         title: "Wir respektieren deine Privatsphäre",
-        description: "Wir verwenden Cookies, um dein Surferlebnis zu verbessern, personalisierte Werbung oder Inhalte bereitzustellen und unseren Datenverkehr zu analysieren. Mit einem Klick auf „Alle akzeptieren“ stimmst du der Verwendung von Cookies zu.",
+        description: "Wir verwenden Cookies, um dein Surferlebnis zu verbessern, personalisierte Werbung oder Inhalte bereitzustellen und unseren Datenverkehr zu analysieren. Mit einem Klick auf 'Alle akzeptieren' stimmst du der Verwendung von Cookies zu.",
         privacy: "Datenschutzerklärung",
         customize: "Anpassen",
         reject: "Ablehnen",
