@@ -65,7 +65,7 @@ const config = {
     allowedDomains: [],
     
     // Privacy policy URL (configurable)
-    privacyPolicyUrl: 'https://firmenkauf.de/#privacy-policy', // Add your full privacy policy URL here
+    privacyPolicyUrl: 'https://firmenkauf.de/datenschutzerklarung', // Add your full privacy policy URL here
 
 
    
